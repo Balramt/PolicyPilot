@@ -1,9 +1,13 @@
-# Python
+# Python cache
 __pycache__/
 *.py[cod]
-*.egg-info/
 
-# Environments
+# Package/build files
+*.egg-info/
+build/
+dist/
+
+# Conda / virtual environments
 .venv/
 venv/
 env/
@@ -11,15 +15,21 @@ env/
 # Environment variables
 .env
 
-# VS Code
+# VS Code local settings
 .vscode/
 
-# Generated files
-data/processed/
+# Generated RAG output
+data/processed/*
+!data/processed/.gitkeep
 
-# Build files
-build/
-dist/
+# Future vector databases
+vector_store/
+chroma_db/
+faiss_index/
+
+# Test and lint caches
+.pytest_cache/
+.ruff_cache/
 
 # OS files
 .DS_Store
