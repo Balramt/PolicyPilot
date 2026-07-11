@@ -6,12 +6,17 @@ from policypilot.ingestion.chunkers.recursive_character_chunker import (
     split_documents_recursively,
 )
 from policypilot.ingestion.config import (
+    DEFAULT_CHUNKS_OUTPUT_FILE,
     DEFAULT_CHUNK_OVERLAP,
     DEFAULT_CHUNK_SIZE,
     DEFAULT_MARKDOWN_FILE,
 )
 from policypilot.ingestion.loaders.markdown_loader import (
     load_markdown_document,
+)
+
+from policypilot.ingestion.writers.jsonl_writer import (
+    write_documents_to_jsonl,
 )
 
 
@@ -70,14 +75,21 @@ def run_markdown_ingestion(
 
 
 def main() -> None:
-    """
-    Run the ingestion pipeline using the default configuration.
-    """
+    """Run the ingestion pipeline using the default configuration."""
 
     chunks = run_markdown_ingestion(
         input_file=DEFAULT_MARKDOWN_FILE,
         chunk_size=DEFAULT_CHUNK_SIZE,
         chunk_overlap=DEFAULT_CHUNK_OVERLAP,
+    )
+
+    write_documents_to_jsonl(
+        documents=chunks,
+        output_file=DEFAULT_CHUNKS_OUTPUT_FILE,
+    )
+
+    print(
+        f"Chunks saved to: {DEFAULT_CHUNKS_OUTPUT_FILE}"
     )
 
     display_chunks(chunks)
