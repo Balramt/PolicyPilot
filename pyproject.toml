@@ -11,6 +11,8 @@ requires-python = ">=3.11"
 dependencies = [
     "langchain-community",
     "langchain-text-splitters",
+    "sentence-transformers",
+    "langchain-huggingface",
 ]
 
 [project.optional-dependencies]
