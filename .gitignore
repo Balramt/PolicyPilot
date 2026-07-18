@@ -23,7 +23,7 @@ data/processed/*
 !data/processed/.gitkeep
 
 # Future vector databases
-vector_store/
+data/vectorstore/*
 chroma_db/
 faiss_index/
 

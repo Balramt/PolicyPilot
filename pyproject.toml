@@ -2,24 +2,33 @@
 requires = ["setuptools"]
 build-backend = "setuptools.build_meta"
 
+
 [project]
 name = "policypilot"
 version = "0.1.0"
 description = "An insurance document assistant built with LangChain and RAG"
 readme = "README.md"
 requires-python = ">=3.11"
+
 dependencies = [
+    "langchain-core",
     "langchain-community",
     "langchain-text-splitters",
-    "sentence-transformers",
     "langchain-huggingface",
+    "langchain-chroma",
+    "sentence-transformers",
+    "langchain-ollama",
+    "torch",
+    "chromadb==1.5.9",
 ]
+
 
 [project.optional-dependencies]
 dev = [
     "pytest",
     "ruff",
 ]
+
 
 [tool.setuptools.packages.find]
 where = ["src"]
