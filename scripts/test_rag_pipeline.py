@@ -57,7 +57,6 @@ def main() -> None:
     rag_service = RAGService(
         vector_store=vector_store,
         llm=llm,
-        number_of_results=3,
     )
 
     print("RAG service created.")
