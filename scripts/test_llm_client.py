@@ -3,7 +3,7 @@ from __future__ import annotations
 from langchain_core.messages import AIMessage
 
 from policypilot.llm.llm_client import create_llm_client
-from policypilot.llm.llm_config import LLMConfig
+from policypilot.llm.llm_config_old import LLMConfig
 
 
 TEST_PROMPT = (
