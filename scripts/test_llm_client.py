@@ -70,7 +70,7 @@ def main() -> None:
     print()
     print("=" * 60)
     print("LLM Response")
-    print("=" * 60)
+    print("=" * 60 )
     print(answer)
     print()
     print("LLM client test completed successfully.")
