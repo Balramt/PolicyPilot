@@ -1,38 +1,49 @@
 from __future__ import annotations
 
-from dataclasses import dataclass
+from typing import Literal
 
 import torch
+from pydantic import BaseModel, ConfigDict, Field
 
 
-@dataclass(frozen=True)
-class EmbeddingConfig:
-    """Configuration for the PolicyPilot embedding model."""
+class EmbeddingConfig(BaseModel):
+    """
+    Configuration for the PolicyPilot embedding model.
+    """
 
-    model_name: str = "sentence-transformers/all-MiniLM-L6-v2"
-    device: str = "auto"
-    batch_size: int = 32
+    model_config = ConfigDict(
+        frozen=True,
+        extra="forbid",
+        str_strip_whitespace=True,
+    )
+
+    model_name: str = Field(
+        default="sentence-transformers/all-MiniLM-L6-v2",
+        min_length=1,
+    )
+
+    device: str = Field(
+        default="auto",
+        min_length=1,
+    )
+
+    batch_size: int = Field(
+        default=32,
+        gt=0,
+    )
+
     normalize_embeddings: bool = True
     show_progress_bar: bool = True
 
     def resolve_device(self) -> str:
-        """Select GPU when available; otherwise use CPU."""
+        """
+        Resolve automatic device selection.
 
-        if self.device == "auto":
-            return "cuda:0" if torch.cuda.is_available() else "cpu"
+        Returns:
+            CUDA when available; otherwise CPU.
+        """
 
-        if self.device == "cpu":
-            return "cpu"
-
-        if self.device.startswith("cuda"):
-            if not torch.cuda.is_available():
-                raise RuntimeError(
-                    "CUDA was requested, but no NVIDIA GPU is available."
-                )
-
+        if self.device != "auto":
             return self.device
 
-        raise ValueError(
-            "Device must be 'auto', 'cpu', 'cuda', or 'cuda:0'."
-        )
-    
+        return "cuda:0" if torch.cuda.is_available() else "cpu"
