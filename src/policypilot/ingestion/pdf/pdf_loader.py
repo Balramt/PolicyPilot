@@ -63,19 +63,13 @@ def load_pdf_document(
     path = Path(file_path).expanduser().resolve()
 
     if not path.exists():
-        raise FileNotFoundError(
-            f"PDF file was not found: {path}"
-        )
+        raise FileNotFoundError(f"PDF file was not found: {path}")
 
     if not path.is_file():
-        raise ValueError(
-            f"Expected a PDF file, but received: {path}"
-        )
+        raise ValueError(f"Expected a PDF file, but received: {path}")
 
     if path.suffix.lower() != ".pdf":
-        raise ValueError(
-            f"Expected a PDF file, but received: {path.suffix}"
-        )
+        raise ValueError(f"Expected a PDF file, but received: {path.suffix}")
 
     try:
         page_chunks = pymupdf4llm.to_markdown(
@@ -85,23 +79,20 @@ def load_pdf_document(
             force_ocr=False,
             write_images=False,
             embed_images=False,
+            header=False,
+            footer=False,
             show_progress=show_progress,
         )
     except Exception as error:
-        raise RuntimeError(
-            f"Failed to extract PDF content from: {path}"
-        ) from error
+        raise RuntimeError(f"Failed to extract PDF content from: {path}") from error
 
     if not isinstance(page_chunks, list):
         raise RuntimeError(
-            "Expected PyMuPDF4LLM to return a list of "
-            "page dictionaries."
+            "Expected PyMuPDF4LLM to return a list of page dictionaries."
         )
 
     if not page_chunks:
-        raise ValueError(
-            f"No PDF pages were extracted from: {path}"
-        )
+        raise ValueError(f"No PDF pages were extracted from: {path}")
 
     documents: list[Document] = []
 
@@ -155,16 +146,13 @@ def _create_page_document(
     """
 
     if not isinstance(page_chunk, dict):
-        raise RuntimeError(
-            "Each PyMuPDF4LLM page result must be a dictionary."
-        )
+        raise RuntimeError("Each PyMuPDF4LLM page result must be a dictionary.")
 
     page_content = page_chunk.get("text")
 
     if not isinstance(page_content, str):
         raise RuntimeError(
-            f"PDF page {fallback_page_number} does not contain "
-            "valid string content."
+            f"PDF page {fallback_page_number} does not contain valid string content."
         )
 
     raw_metadata = page_chunk.get("metadata", {})
@@ -174,8 +162,7 @@ def _create_page_document(
 
     if not isinstance(raw_metadata, dict):
         raise RuntimeError(
-            f"PDF page {fallback_page_number} contains "
-            "invalid metadata."
+            f"PDF page {fallback_page_number} contains invalid metadata."
         )
 
     page_number = raw_metadata.get(

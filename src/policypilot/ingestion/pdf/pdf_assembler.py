@@ -47,9 +47,7 @@ def assemble_pdf_document(
         "page_start": first_document.metadata["page_number"],
         "page_end": last_document.metadata["page_number"],
         "total_pages": len(ordered_documents),
-        "extraction_method": first_document.metadata[
-            "extraction_method"
-        ],
+        "extraction_method": first_document.metadata["extraction_method"],
         "assembly_method": "page_marker_join",
     }
 
